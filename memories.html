@@ -41,7 +41,8 @@
         }
 
         /* gallery */
-        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.8rem; }
+        .gallery { display: grid; grid-template-columns: 1fr; gap: 1.8rem; max-width: 860px; margin: 0 auto; }
+        @media (min-width: 700px) { .gallery { grid-template-columns: 1fr 1fr; } }
         .photo { background: #fff; padding: .8rem .8rem 1.3rem; border-radius: 6px; box-shadow: var(--shadow); transition: transform .4s ease; }
         .photo:nth-child(odd) { transform: rotate(-1.5deg); }
         .photo:nth-child(even) { transform: rotate(1.5deg); }
@@ -50,7 +51,7 @@
         .photo h3 { font-family: 'Dancing Script', cursive; color: var(--rose-deep); font-size: 1.7rem; margin: .8rem 0 .3rem; }
         .photo p { line-height: 1.65; font-size: .98rem; color: var(--ink); }
         .photo.wide { grid-column: 1 / -1; }
-        .photo.wide img { height: auto; max-height: 460px; object-position: center 30%; }
+        .photo.wide img { height: auto; }
 
         /* engagement */
         .engagement .inner { display: grid; gap: 2rem; align-items: center; max-width: 960px; margin: 0 auto; }
@@ -258,16 +259,10 @@
             <p class="section-sub reveal">I've looked at these more times than I'll ever admit. You told me you rarely smile in photos. Somehow you're still the prettiest thing in every one of them.</p>
 
             <div class="gallery">
-                <div class="photo reveal">
+                <div class="photo wide reveal">
                     <img src="images/muunie-white-dupatta.jpg" alt="Malaiqa in a white patterned dupatta">
                     <h3>Those eyes, baby</h3>
                     <p>The same eyes I couldn't look into when we first met, and honestly still can't without my ears going red. Soft white dupatta, that tiny nose ring, and a look that says "I know you're staring, Ray". Yes. Always.</p>
-                </div>
-
-                <div class="photo reveal">
-                    <img src="images/mylaiqa-rose.jpg" alt="Malaiqa on the lock screen, with the name Mylaiqa" style="object-position: 60% center;">
-                    <h3>Mylaiqa, my lock screen</h3>
-                    <p>Every time I pick up my phone, this is who I see: cheek on her hand, that half smile she tries to hide. I didn't write "Malaiqa", I wrote MY-laiqa, because you are mine, and I'm the luckiest man in Karachi.</p>
                 </div>
 
                 <div class="photo reveal">
@@ -281,6 +276,12 @@
                     <h3>Soft pink, soft heart</h3>
                     <p>Rose hijab, that pout, and a hand posing like a model who doesn't know she's one. You say you're not photogenic. I say the camera just gets shy around you, the same way I do.</p>
                 </div>
+                <div class="photo wide reveal">
+                    <img src="images/mylaiqa-rose.jpg" alt="Malaiqa on the lock screen, with the name Mylaiqa">
+                    <h3>Mylaiqa, my lock screen</h3>
+                    <p>Every time I pick up my phone, this is who I see: cheek on her hand, that half smile she tries to hide. I didn't write "Malaiqa", I wrote MY-laiqa, because you are mine, and I'm the luckiest man in Karachi.</p>
+                </div>
+
             </div>
         </div>
     </section>
