@@ -67,16 +67,40 @@
         .photo.wide { grid-column: 1 / -1; }
         .photo.wide img { height: auto; }
 
-        /* engagement */
-        .engagement .inner { display: grid; gap: 2rem; align-items: center; max-width: 960px; margin: 0 auto; }
-        @media (min-width: 800px) { .engagement .inner { grid-template-columns: 1fr 1.1fr; } }
-        .engagement .frame { position: relative; border-radius: 26px; overflow: hidden; box-shadow: 0 20px 50px rgba(107,45,43,.25); border: 8px solid #fff; }
-        .engagement .frame img { width: 100%; display: block; }
-        .engagement .ring { position: absolute; top: 14px; right: 14px; background: #fff; border-radius: 999px; padding: .35rem .8rem; font-size: .9rem; color: var(--rose-deep); font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,.1); }
-        .engagement .text h2 { font-family: 'Playfair Display', serif; font-weight: 800; color: var(--maroon); font-size: clamp(1.8rem, 6vw, 2.6rem); line-height: 1.15; }
-        .engagement .text h2 em { font-family: 'Dancing Script', cursive; font-style: normal; color: var(--rose-deep); }
-        .engagement .text p { margin-top: 1rem; line-height: 1.8; font-size: 1.05rem; }
-        .engagement .text .dua { margin-top: 1.3rem; padding: 1rem 1.2rem; background: var(--card); border-radius: 18px; box-shadow: var(--shadow); font-style: italic; color: var(--maroon); }
+        /* engagement: polaroids clipped on a string */
+        .engagement .intro { text-align: center; max-width: 620px; margin: 0 auto; }
+        .engagement .intro h2 { font-family: 'Playfair Display', serif; font-weight: 800; color: var(--maroon); font-size: clamp(2rem, 7vw, 3rem); line-height: 1.15; }
+        .engagement .intro h2 em { font-family: 'Dancing Script', cursive; font-style: normal; color: var(--rose-deep); display: block; }
+        .engagement .intro p { color: var(--soft); margin-top: .6rem; }
+        .ropes { display: flex; flex-wrap: wrap; justify-content: center; max-width: 1100px; margin: 2.5rem auto 0; }
+        .rope { position: relative; display: flex; justify-content: space-around; gap: 1rem; padding: 34px .5rem 1.5rem; flex: 1 1 520px; max-width: 560px; }
+        .rope::before { content: ''; position: absolute; left: -2%; right: -2%; top: 0; height: 26px; border-bottom: 3px solid #b0876b; border-radius: 0 0 50% 50% / 0 0 100% 100%; opacity: .85; }
+        .snap { position: relative; background: #fff; padding: .55rem .55rem 0; width: min(46%, 240px); box-shadow: 0 14px 30px rgba(107,45,43,.22); cursor: zoom-in; transform-origin: top center; transition: transform .4s ease; animation: sway 5s ease-in-out infinite; }
+        .snap:nth-child(1) { --r: -4deg; animation-delay: -1s; }
+        .snap:nth-child(2) { --r: 3deg; margin-top: 18px; animation-delay: -2.5s; }
+        .rope:nth-child(2) .snap:nth-child(1) { --r: 2deg; margin-top: 14px; }
+        .rope:nth-child(2) .snap:nth-child(2) { --r: -3deg; margin-top: 2px; }
+        @keyframes sway { 0%,100% { transform: rotate(var(--r)); } 50% { transform: rotate(calc(var(--r) * -0.4)); } }
+        .snap:hover { animation-play-state: paused; transform: rotate(0) scale(1.04); z-index: 3; }
+        .snap img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
+        .snap figcaption { font-family: 'Dancing Script', cursive; color: var(--rose-deep); font-size: 1.15rem; text-align: center; padding: .5rem .2rem .7rem; line-height: 1.2; }
+        .snap .pin { position: absolute; top: -26px; left: 50%; width: 14px; height: 40px; margin-left: -7px; border-radius: 3px; background: linear-gradient(90deg, #c8966b, #e2b78d 45%, #b98458); box-shadow: 0 2px 4px rgba(0,0,0,.25); z-index: 2; }
+        .snap .pin::after { content: ''; position: absolute; left: 2px; right: 2px; top: 16px; height: 3px; background: #8f6443; border-radius: 2px; }
+        .snap .heart-tape { position: absolute; bottom: 2.2rem; right: -8px; font-size: 1.3rem; transform: rotate(14deg); }
+        .engagement .story { max-width: 700px; margin: 2rem auto 0; }
+        .engagement .story p { margin-top: 1rem; line-height: 1.85; font-size: 1.05rem; }
+        .engagement .dua { margin-top: 1.4rem; padding: 1rem 1.2rem; background: var(--card); border-radius: 18px; box-shadow: var(--shadow); font-style: italic; color: var(--maroon); text-align: center; }
+        @media (prefers-reduced-motion: reduce) { .snap { animation: none; transform: rotate(var(--r)); } }
+
+        /* lightbox */
+        .lightbox { position: fixed; inset: 0; z-index: 100; background: rgba(60, 25, 24, .82); display: none; align-items: center; justify-content: center; flex-direction: column; padding: 1.25rem; cursor: zoom-out; }
+        .lightbox.open { display: flex; }
+        .lightbox img { max-width: 100%; max-height: 78vh; border: 8px solid #fff; border-radius: 4px; box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+        .lightbox p { color: #fff; font-family: 'Dancing Script', cursive; font-size: 1.6rem; margin-top: .9rem; text-align: center; }
+
+        /* solo gallery card */
+        .photo.solo { grid-column: 1 / -1; max-width: 440px; width: 100%; justify-self: center; }
+        .photo.solo img { height: auto; }
 
         /* sorry note */
         .note { max-width: 560px; margin: 0 auto; background: #fffdf8; border-radius: 6px; padding: 2rem 1.6rem; box-shadow: var(--shadow); transform: rotate(-1deg); background-image: repeating-linear-gradient(transparent 0 31px, #f3dcd6 31px 32px); line-height: 32px; }
@@ -306,26 +330,59 @@
                     <p>This one isn't for the world. It only lights up when I call you on your number, so nobody sees it except me: cheek on her hand, that half smile she tries to hide, and a name ringing on my screen. I didn't save you as "Malaiqa", I saved you as MY-laiqa, because you are mine. Every time I call, I get my own little private glimpse of you before you pick up, and I'm the luckiest man in Karachi.</p>
                 </div>
 
+                <div class="photo solo reveal">
+                    <img src="images/engagement.jpg" alt="Malaiqa and Rafay standing together under a good vibes only neon sign">
+                    <h3>Good vibes only</h3>
+                    <p>Us, under a sign that says "good vibes only", as if it needed saying. You in black and gold, so graceful. Me in black, standing just a little apart, too shy to lean in. Every vibe with you is a good one, muunie, even the ones where you're scolding me.</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- ENGAGEMENT -->
     <section class="engagement">
-        <div class="inner">
-            <div class="frame reveal">
-                <img src="images/engagement.jpg" alt="Malaiqa and Rafay standing together on their engagement">
-                <div class="ring">💍 us</div>
+        <div class="intro reveal">
+            <h2>The day you became <em>my fiancée 💍</em></h2>
+            <p>Our rasam, clipped up here so I can look at it whenever I want. Tap any photo to see it big.</p>
+        </div>
+
+        <div class="ropes">
+            <div class="rope">
+                <figure class="snap reveal">
+                    <span class="pin"></span>
+                    <img src="images/rasam-1.jpg" alt="Rafay and Malaiqa sitting together at their engagement" style="object-position: center 25%;">
+                    <figcaption>the day you became mine</figcaption>
+                </figure>
+                <figure class="snap reveal">
+                    <span class="pin"></span>
+                    <img src="images/rasam-2.jpg" alt="A flower being placed on Malaiqa's head at the engagement" style="object-position: 55% center;">
+                    <figcaption>flowers for my flower 🌸</figcaption>
+                </figure>
             </div>
-            <div class="text reveal">
-                <h2>Two shy people, <em>one forever</em></h2>
-                <p>Look at us. You in black and gold, standing so gracefully. Me in black, trying so hard to look normal and not like the happiest man alive. We're standing just a little apart, not quite sure where to put our hands, too shy to lean in, but together.</p>
-                <p>You didn't see me the first time. The second time you sat next to khala. And the third time, we met straight at our rasam. Our story didn't start with fireworks. It started with two nervous hearts saying yes, and with you telling me that your heart finally felt at peace.</p>
-                <p>That's all I ever want to be for you, Malaiqa: peace. Someone you never have to be brave in front of, but who makes you feel brave anyway. The rest (the permit, the "12 daughters and 12 sons" debate we will never settle 😌) will come inshallah.</p>
-                <div class="dua">Ya Allah, keep her smiling, keep her safe, keep her mine, and let the flowers in our garden stay in bloom forever. Ameen. 🤲🌸</div>
+            <div class="rope">
+                <figure class="snap reveal">
+                    <span class="pin"></span>
+                    <img src="images/rasam-3.jpg" alt="Rafay and Malaiqa posing for their engagement photo" style="object-position: center 40%;">
+                    <figcaption>trying so hard to look serious</figcaption>
+                </figure>
+                <figure class="snap reveal">
+                    <span class="pin"></span>
+                    <span class="heart-tape">💗</span>
+                    <img src="images/rasam-4.jpg" alt="Rafay smiling widely while Malaiqa looks down with a shy smile" style="object-position: center 45%;">
+                    <figcaption>my big smile, your shy one</figcaption>
+                </figure>
             </div>
         </div>
+
+        <div class="story reveal">
+            <p>Look at you, Malaiqa. Mustard and gold, pink roses and white motia all around you, mehndi on your hands, and that flower resting on your hijab like it knew exactly who it was for. And me in green, sitting next to the most beautiful girl in the room and trying very hard to act normal.</p>
+            <p>You didn't see me the first time. The second time you sat next to khala. And the third time, we met straight at our rasam, both of us too shy to even look at each other. In one picture I'm trying to look serious and failing. In another, I'm grinning like I won the whole world, because I did, and you're looking down with that little shy smile you always try to hide. That picture is my favourite. It's us in one frame: me unable to stop smiling, and you, blushing.</p>
+            <p>Our story didn't start with fireworks. It started with two nervous hearts, a lot of flowers, and you telling me your heart finally felt at peace. That's all I ever want to be for you: peace. The rest (the permit, the "12 daughters and 12 sons" debate we will never settle 😌) will come inshallah.</p>
+            <div class="dua">Ya Allah, keep her smiling, keep her safe, keep her mine, and let the flowers in our garden stay in bloom forever. Ameen. 🤲🌸</div>
+        </div>
     </section>
+
+    <div class="lightbox" id="lightbox"><img alt=""><p></p></div>
 
     <!-- SORRY NOTE -->
     <section>
@@ -376,6 +433,19 @@
 
     <script src="common.js"></script>
     <script>
+
+        const lb = document.getElementById('lightbox');
+        document.querySelectorAll('.snap').forEach((fig) => {
+            fig.addEventListener('click', () => {
+                lb.querySelector('img').src = fig.querySelector('img').src;
+                lb.querySelector('img').alt = fig.querySelector('img').alt;
+                lb.querySelector('p').textContent = fig.querySelector('figcaption').textContent;
+                lb.classList.add('open');
+            });
+        });
+        lb.addEventListener('click', () => lb.classList.remove('open'));
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') lb.classList.remove('open'); });
+
         const cake = document.getElementById('cake');
         let blown = false;
         cake.addEventListener('click', () => {
