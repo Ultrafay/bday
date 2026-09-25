@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Little Story 🎀</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        section { position: relative; z-index: 2; padding: 4rem 1.25rem; }
+        .wrap { max-width: 1000px; margin: 0 auto; }
+        .section-title { font-family: 'Dancing Script', cursive; font-size: clamp(2.3rem, 8vw, 3.6rem); color: var(--rose-deep); text-align: center; }
+        .section-sub { text-align: center; color: var(--soft); max-width: 560px; margin: .6rem auto 2.5rem; line-height: 1.6; }
+
+        /* hero */
+        .hero { min-height: 90vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .hero h1 { font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(2.4rem, 9vw, 5rem); color: var(--maroon); line-height: 1.05; }
+        .hero h1 em { font-family: 'Dancing Script', cursive; font-style: normal; color: var(--rose-deep); display: block; font-size: 1.1em; }
+        .hero p { max-width: 520px; margin: 1.4rem auto 0; line-height: 1.7; font-size: 1.1rem; }
+        .scroll-hint { margin-top: 2.5rem; color: var(--soft); animation: bob 2s ease-in-out infinite; }
+        @keyframes bob { 50% { transform: translateY(8px); } }
+
+        /* timeline */
+        .timeline { position: relative; max-width: 760px; margin: 0 auto; }
+        .timeline::before { content: ''; position: absolute; left: 18px; top: 0; bottom: 0; width: 3px; background: linear-gradient(var(--blush), var(--rose), var(--blush)); border-radius: 3px; }
+        .moment { position: relative; padding-left: 3.4rem; margin-bottom: 2rem; }
+        .moment .dot { position: absolute; left: 4px; top: .2rem; width: 32px; height: 32px; border-radius: 50%; background: #fff; box-shadow: 0 4px 12px rgba(184,92,85,.3); display: grid; place-items: center; font-size: 1rem; }
+        .moment .card { background: var(--card); border-radius: 20px; padding: 1.2rem 1.3rem; box-shadow: var(--shadow); }
+        .moment .date { font-family: 'Playfair Display', serif; font-style: italic; color: var(--rose); font-size: .92rem; }
+        .moment h3 { font-family: 'Playfair Display', serif; color: var(--maroon); font-size: 1.2rem; margin: .15rem 0 .45rem; }
+        .moment p { line-height: 1.65; }
+        .bubble { display: inline-block; margin-top: .7rem; padding: .55rem .85rem; border-radius: 14px 14px 14px 4px; background: var(--blush); color: var(--maroon); font-size: .92rem; }
+        .bubble.me { border-radius: 14px 14px 4px 14px; background: #fff0e8; }
+        .bubble small { display: block; color: var(--soft); font-size: .78rem; margin-top: .15rem; }
+        @media (min-width: 760px) {
+            .timeline::before { left: 50%; transform: translateX(-50%); }
+            .moment { width: 50%; padding-left: 0; padding-right: 2.6rem; }
+            .moment:nth-child(even) { margin-left: 50%; padding-right: 0; padding-left: 2.6rem; }
+            .moment .dot { left: auto; right: -16px; }
+            .moment:nth-child(even) .dot { right: auto; left: -16px; }
+        }
+
+        /* gallery */
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.8rem; }
+        .photo { background: #fff; padding: .8rem .8rem 1.3rem; border-radius: 6px; box-shadow: var(--shadow); transition: transform .4s ease; }
+        .photo:nth-child(odd) { transform: rotate(-1.5deg); }
+        .photo:nth-child(even) { transform: rotate(1.5deg); }
+        .photo:hover { transform: rotate(0) scale(1.02); }
+        .photo img { width: 100%; height: 340px; object-fit: cover; border-radius: 3px; display: block; }
+        .photo h3 { font-family: 'Dancing Script', cursive; color: var(--rose-deep); font-size: 1.7rem; margin: .8rem 0 .3rem; }
+        .photo p { line-height: 1.65; font-size: .98rem; color: var(--ink); }
+        .photo.wide { grid-column: 1 / -1; }
+        .photo.wide img { height: auto; max-height: 460px; object-position: center 30%; }
+
+        /* engagement */
+        .engagement .inner { display: grid; gap: 2rem; align-items: center; max-width: 960px; margin: 0 auto; }
+        @media (min-width: 800px) { .engagement .inner { grid-template-columns: 1fr 1.1fr; } }
+        .engagement .frame { position: relative; border-radius: 26px; overflow: hidden; box-shadow: 0 20px 50px rgba(107,45,43,.25); border: 8px solid #fff; }
+        .engagement .frame img { width: 100%; display: block; }
+        .engagement .ring { position: absolute; top: 14px; right: 14px; background: #fff; border-radius: 999px; padding: .35rem .8rem; font-size: .9rem; color: var(--rose-deep); font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,.1); }
+        .engagement .text h2 { font-family: 'Playfair Display', serif; font-weight: 800; color: var(--maroon); font-size: clamp(1.8rem, 6vw, 2.6rem); line-height: 1.15; }
+        .engagement .text h2 em { font-family: 'Dancing Script', cursive; font-style: normal; color: var(--rose-deep); }
+        .engagement .text p { margin-top: 1rem; line-height: 1.8; font-size: 1.05rem; }
+        .engagement .text .dua { margin-top: 1.3rem; padding: 1rem 1.2rem; background: var(--card); border-radius: 18px; box-shadow: var(--shadow); font-style: italic; color: var(--maroon); }
+
+        /* sorry note */
+        .note { max-width: 560px; margin: 0 auto; background: #fffdf8; border-radius: 6px; padding: 2rem 1.6rem; box-shadow: var(--shadow); transform: rotate(-1deg); background-image: repeating-linear-gradient(transparent 0 31px, #f3dcd6 31px 32px); line-height: 32px; }
+        .note h3 { font-family: 'Dancing Script', cursive; color: var(--rose-deep); font-size: 2rem; line-height: 1.2; margin-bottom: .6rem; }
+        .note p { font-size: 1.02rem; }
+
+        /* cake + finale */
+        .finale { text-align: center; padding-bottom: 6rem; }
+        .cake { font-size: 6rem; position: relative; display: inline-block; cursor: pointer; margin: 1rem 0 .5rem; user-select: none; }
+        .candles { position: absolute; top: -.2em; left: 50%; transform: translateX(-50%); display: flex; gap: .3em; font-size: .35em; }
+        .flame { animation: flicker .6s ease-in-out infinite alternate; transform-origin: bottom center; }
+        @keyframes flicker { from { transform: scaleY(1) rotate(-3deg); } to { transform: scaleY(1.2) rotate(3deg); } }
+        .blown .flame { visibility: hidden; }
+        .cake-hint { color: var(--soft); }
+        .letter { max-width: 680px; margin: 2.5rem auto 0; background: var(--card); border-radius: 26px; padding: 2.2rem 1.6rem; box-shadow: var(--shadow); text-align: left; line-height: 1.9; font-size: 1.05rem; display: none; }
+        .letter h2 { font-family: 'Dancing Script', cursive; color: var(--rose-deep); font-size: 2.4rem; text-align: center; margin-bottom: 1rem; animation: heartbeat 2s infinite; }
+        @keyframes heartbeat { 50% { transform: scale(1.06); } }
+        .letter p + p { margin-top: 1rem; }
+        .letter .sign { text-align: right; font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: var(--rose-deep); margin-top: 1.5rem; }
+        .confetti { position: fixed; top: -20px; z-index: 50; pointer-events: none; font-size: 22px; }
+        .again { margin-top: 2rem; }
+    </style>
+</head>
+<body class="page-fade">
+
+    <section class="hero">
+        <h1><em>from "Salam, kaisi hai ap"</em>to "my muunie"</h1>
+        <p>It started with a very nervous text at 6:05 in the morning on 8th March. Here is everything that happened after, the moments I keep replaying when I miss you.</p>
+        <div class="scroll-hint">scroll slowly, baby ↓</div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section>
+        <div class="wrap">
+            <h2 class="section-title reveal">Our little timeline</h2>
+            <p class="section-sub reveal">Six months, a hundred thousand messages, a thousand "bye bye muun"s, and still not enough.</p>
+
+            <div class="timeline">
+                <div class="moment reveal">
+                    <div class="dot">💌</div>
+                    <div class="card">
+                        <div class="date">8 March</div>
+                        <h3>The first hello</h3>
+                        <p>I texted you "Hope it's okay reaching out", then panicked and asked twice whether you were okay talking to me. You were so polite, and I had no idea my whole life was about to change.</p>
+                        <div class="bubble">"Nahi mujhe koi issue nahi hai."<small>No, I don't have any problem with it.</small></div>
+                    </div>
+                </div>
+
+                <div class="moment reveal">
+                    <div class="dot">📚</div>
+                    <div class="card">
+                        <div class="date">March</div>
+                        <h3>Books, "Stutter Island" & 5 Murder</h3>
+                        <p>I guessed psychology from your bookshelf, you called me a stranger, I called you a nerd ("the good type, books wali"), and I faked spoilers about a goat dying in The Alchemist. You still don't trust my spoilers.</p>
+                        <div class="bubble">"Ma ne believe hi nahi karna ab ki baar."<small>I'm not believing you this time.</small></div>
+                    </div>
+                </div>
+
+                <div class="moment reveal">
+                    <div class="dot">🕷️</div>
+                    <div class="card">
+                        <div class="date">End of March</div>
+                        <h3>RIP my Spiderman</h3>
+                        <p>Usaid broke my Spiderman, you laughed, and I took his walkie-talkie hostage until he brings a new one. I'm still waiting, by the way.</p>
+                        <div class="bubble">"Ap ko apna spiderman baacha kar rakhna chahie tha 😂"<small>You should have kept your Spiderman safe.</small></div>
+                    </div>
+                </div>
+
+                <div class="moment reveal">
+                    <div class="dot">📞</div>
+                    <div class="card">
+                        <div class="date">24 April</div>
+                        <h3>The first call</h3>
+                        <p>You called, I slept through it. Then I called, and you were so scared because Mursaleen bhai was sitting right next to your phone. The next day he didn't believe you hadn't talked to me, because you were too shy to say anything.</p>
+                        <div class="bubble">"Unko lag raha hai ky ma jhoot bol rahi ho q ky mujhe sharam arahi hai"<small>He thinks I'm lying because I'm feeling shy.</small></div>
+                    </div>
+                </div>
+
+                <div class="moment reveal">
+                    <div class="dot">🌙</div>
+                    <div class="card">
+                        <div class="date">2 May</div>
+                        <h3>How "muun" was born</h3>
+                        <p>I came over with books from the book fair. I heard mumma call you "ammu" and my heart heard "muuu". You asked if you were a cow. No baby, it's short for moon, because that's what you are.</p>
+                        <div class="bubble me">"Muuu, short for mooon 🫢"</div>
+                    </div>
+                </div>
+
+                <div class="moment reveal">
+                    <div class="dot">💬</div>
+                    <div class="card">
+                        <div class="date">15 to 17 May</div>
+                        <h3>The secret nickname war</h3>
+                        <p>I gave you "mon coeur" and wouldn't explain it. You gave me "jagi" and wouldn't explain either, so I had to ask Claude. And then Spidey was born.</p>
+                        <div class="bubble">"You don't need to know, it's a nickname, just think it doesn't have a meaning 🫣"</div>
+                    </div>
+                </div>
+
+                <div class="moment reveal">
+                    <div class="dot">🌸</div>
+                    <div class="card">
+                        <div class="date">28 & 29 May</div>
+                        <h3>The magic words</h3>
+                        <p>A 25-second call from you and a 26-second call from me, the two bravest calls of our lives. I heard it in 4K. You said you weren't picking up again because your nervous system couldn't handle it.</p>
+                        <div class="bubble">"I'm not mad, I'm just shy 😭"</div>
+                    </div>
+                </div>
+
+                <div class="moment reveal">
+                    <div class="dot">🍮</div>
+                    <div class="card">
+                        <div class="date">30 May</div>
+                        <h3>Master chef & her kheer</h3>
+                        <p>My family came to dinner and you made kheer. Then we had our cutest fight ever, because you thought I didn't like it. I did. It was perfect. You're my master chef.</p>
+                    </div>
+                </div>
+
+                <div class="moment reveal">
+                    <div class="dot">🥥</div>
+                    <div class="card">
+                        <div class="date">June</div>
+                        <h3>Coconuts, songs & "I like us"</h3>
+                        <p>If we weren't humans, we'd be two coconuts on a thela together. I sang for you, worried I'd sound bad, and you said it made you smile. You told me muun was becoming your favourite nickname, and that "like" doesn't describe what you feel.</p>
+                        <div class="bubble">"I don't like changes in my life very much but I'm happy with the change this relation has brought."</div>
+                    </div>
+                </div>
+
+                <div class="moment reveal">
+                    <div class="dot">☕</div>
+                    <div class="card">
+                        <div class="date">30 June & 1 July</div>
+                        <h3>Extra sugar & whispered salams</h3>
+                        <p>I came to your house and couldn't look up even once ("default settings"). You whispered Allah Hafiz so softly I never heard it, and my chai was extra sweet because you'd told mumma I love meetha.</p>
+                        <div class="bubble">"You were looking down every time I came 🤣"</div>
+                    </div>
+                </div>
+
+                <div class="moment reveal">
+                    <div class="dot">😂</div>
+                    <div class="card">
+                        <div class="date">July</div>
+                        <h3>Mowgli of Surjani Town</h3>
+                        <p>You announced our engagement with a status so no more rishtas would come. The Harpic company got a new co-CEO, you woke up to a "nikah certificate prop.docx" and 4 daughters and 6 sons, and your mumma got you engaged to Mowgli.</p>
+                        <div class="bubble">"Mumma ne meri engagement mougli se Karwa di 🤧"<small>Mumma got me engaged to Mowgli.</small></div>
+                    </div>
+                </div>
+
+                <div class="moment reveal">
+                    <div class="dot">🍗</div>
+                    <div class="card">
+                        <div class="date">2 August</div>
+                        <h3>Movie, KFC & gajray</h3>
+                        <p>Our first outing (Mudassir came along). You wore heels so you "weren't small" and I still called you my smol cutie. I picked your hijabs myself. My favourite part was talking to you alone at KFC. It felt just like our WhatsApp.</p>
+                        <div class="bubble me">"Humne pictures lene k ilawa sb kra 🥲"<small>We did everything except take pictures.</small></div>
+                    </div>
+                </div>
+
+                <div class="moment reveal">
+                    <div class="dot">🏡</div>
+                    <div class="card">
+                        <div class="date">9 August</div>
+                        <h3>"It felt like my new family"</h3>
+                        <p>You planned the whole visit yourself and gave me a gift in my favourite colour. For the first time I felt like part of your family.</p>
+                        <div class="bubble">"Can't ask you out on a date but I can do this a little for you… Today was my type of date."</div>
+                    </div>
+                </div>
+
+                <div class="moment reveal">
+                    <div class="dot">🍢</div>
+                    <div class="card">
+                        <div class="date">6 September</div>
+                        <h3>Our first real talk, alone</h3>
+                        <p>You came to scold me about serious things and I couldn't stop smiling. My angry woman and her shy man. And then you said the line I will keep forever.</p>
+                        <div class="bubble">"Jiii there was love. There is love. There will be love inshallah."</div>
+                    </div>
+                </div>
+
+                <div class="moment reveal">
+                    <div class="dot">🎂</div>
+                    <div class="card">
+                        <div class="date">26 September</div>
+                        <h3>Today: your day</h3>
+                        <p>You asked me out for today, weeks ago: ice cream, and me yapping. You dreamt we held hands and tried street food. So today is yours, muunie, every single minute of it.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section>
+        <div class="wrap">
+            <h2 class="section-title reveal">Pictures of my whole world</h2>
+            <p class="section-sub reveal">I've looked at these more times than I'll ever admit. You told me you rarely smile in photos. Somehow you're still the prettiest thing in every one of them.</p>
+
+            <div class="gallery">
+                <div class="photo reveal">
+                    <img src="images/muunie-white-dupatta.jpg" alt="Malaiqa in a white patterned dupatta">
+                    <h3>Those eyes, baby</h3>
+                    <p>The same eyes I couldn't look into when we first met, and honestly still can't without my ears going red. Soft white dupatta, that tiny nose ring, and a look that says "I know you're staring, Ray". Yes. Always.</p>
+                </div>
+
+                <div class="photo reveal">
+                    <img src="images/mylaiqa-rose.jpg" alt="Malaiqa on the lock screen, with the name Mylaiqa" style="object-position: 60% center;">
+                    <h3>Mylaiqa, my lock screen</h3>
+                    <p>Every time I pick up my phone, this is who I see: cheek on her hand, that half smile she tries to hide. I didn't write "Malaiqa", I wrote MY-laiqa, because you are mine, and I'm the luckiest man in Karachi.</p>
+                </div>
+
+                <div class="photo reveal">
+                    <img src="images/checkered-queen.jpg" alt="Malaiqa in a black and white checkered hijab" style="object-position: center 35%;">
+                    <h3>The queen of the chessboard</h3>
+                    <p>Black and white checks, a little pink flower, and that side-eye. It's the "sneaky woman" look, the one before you say something that leaves me speechless. You checkmated my heart months ago, muun. I'm not asking for a rematch.</p>
+                </div>
+
+                <div class="photo reveal">
+                    <img src="images/night-out.jpg" alt="Malaiqa in a rose hijab at night, hand posed near her face" style="object-position: center 30%;">
+                    <h3>Soft pink, soft heart</h3>
+                    <p>Rose hijab, that pout, and a hand posing like a model who doesn't know she's one. You say you're not photogenic. I say the camera just gets shy around you, the same way I do.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ENGAGEMENT -->
+    <section class="engagement">
+        <div class="inner">
+            <div class="frame reveal">
+                <img src="images/engagement.jpg" alt="Malaiqa and Rafay standing together on their engagement">
+                <div class="ring">💍 us</div>
+            </div>
+            <div class="text reveal">
+                <h2>Two shy people, <em>one forever</em></h2>
+                <p>Look at us. You in black and gold, standing so gracefully. Me in black, trying so hard to look normal and not like the happiest man alive. We're standing just a little apart, not quite sure where to put our hands, too shy to lean in, but together.</p>
+                <p>You didn't see me the first time. The second time you sat next to khala. And the third time, we met straight at our rasam. Our story didn't start with fireworks. It started with two nervous hearts saying yes, and with you telling me that your heart finally felt at peace.</p>
+                <p>That's all I ever want to be for you, Malaiqa: peace. Someone you never have to be brave in front of, but who makes you feel brave anyway. The rest (the permit, the "12 daughters and 12 sons" debate we will never settle 😌) will come inshallah.</p>
+                <div class="dua">Ya Allah, keep her smiling, keep her safe, keep her mine, and let the flowers in our garden stay in bloom forever. Ameen. 🤲🌸</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SORRY NOTE -->
+    <section>
+        <div class="note reveal">
+            <h3>P.S. about last night…</h3>
+            <p>Yes, I was late. I was in a barber's chair and remembered at 12:30, and I will never live that down, and I shouldn't. You were right, like you usually are. So here's my apology, in the only language that suits a bookworm: a whole website instead of a text. I'm learning to be on time, baby, and this is me being early for every birthday of yours for the rest of our lives. 🥺🫶</p>
+        </div>
+    </section>
+
+    <!-- CAKE + LETTER -->
+    <section class="finale">
+        <h2 class="section-title">Make a wish, muunie</h2>
+        <p class="section-sub">You said you like to cut a cake "cause it's a cake and I like cake". So here is one. Tap it to blow out the candles 🕯️</p>
+
+        <div class="cake" id="cake">
+            <div class="candles"><span class="flame">🕯️</span><span class="flame">🕯️</span><span class="flame">🕯️</span></div>
+            🎂
+        </div>
+        <div class="cake-hint" id="cakeHint">tap the cake</div>
+
+        <div class="letter" id="letter">
+            <h2>Happy Birthday, Mylaiqa 🎀</h2>
+            <p>Baby, six months ago you were a name my family said with a smile. Now you're the first message I look for in the morning, the "stay hydrated" I don't deserve, and the last "bye bye muun" I type before I fall asleep mid-conversation (sorry, again).</p>
+            <p>You are kind in the quiet ways that matter. You care for street cats, you keep mumma's sugar in check, you teach your tuition kids even on Sundays, and you worry about me when I go silent for four hours. You're shy enough to whisper Allah Hafiz and brave enough to ask me out first. You're a bookworm, a master chef, a Harpic co-CEO, and my angry bird, and I love every single version of you.</p>
+            <p>I hope this year gives you everything you've been quietly wishing for: your results, your dreams, a whole shelf of new books, ice cream whenever you want it, and a fiancé who finally learns to be on time. I promise to keep trying to be better for you, to open up without needing 400 pages, and to keep calling you by your name just to watch you get shy.</p>
+            <p>There was love. There is love. There will be love, inshallah. Forever and in 4K.</p>
+            <div class="sign">Your Ray, your Spidey,<br>your shy man 💗</div>
+        </div>
+
+        <div class="again">
+            <a class="btn ghost" href="index.html">Start again from the beginning 💝</a>
+        </div>
+    </section>
+
+    <script src="common.js"></script>
+    <script>
+        const cake = document.getElementById('cake');
+        let blown = false;
+        cake.addEventListener('click', () => {
+            if (blown) return;
+            blown = true;
+            cake.classList.add('blown');
+            document.getElementById('cakeHint').textContent = 'Wish made. I hope it was about me 😌';
+            const letter = document.getElementById('letter');
+            letter.style.display = 'block';
+            gsap.from(letter, { opacity: 0, y: 40, duration: 1, ease: 'power2.out' });
+            setTimeout(() => letter.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+            const bits = ['🎉', '💖', '🎀', '✨', '🌸', '💕', '🎊'];
+            for (let i = 0; i < 60; i++) {
+                const c = document.createElement('div');
+                c.className = 'confetti';
+                c.textContent = bits[i % bits.length];
+                c.style.left = Math.random() * 100 + 'vw';
+                document.body.appendChild(c);
+                gsap.to(c, {
+                    y: window.innerHeight + 60,
+                    x: Math.random() * 200 - 100,
+                    rotation: Math.random() * 720,
+                    duration: Math.random() * 2.5 + 2.5,
+                    delay: Math.random() * 1.2,
+                    ease: 'power1.in',
+                    onComplete: () => c.remove()
+                });
+            }
+        });
+    </script>
+</body>
+</html>

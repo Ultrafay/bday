@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why You, Muunie 💖</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 3.5rem 1.25rem 4rem;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        h1 { font-family: 'Dancing Script', cursive; font-size: clamp(2.5rem, 9vw, 4rem); color: var(--rose-deep); }
+        .sub { color: var(--soft); margin: .5rem auto 2rem; max-width: 480px; line-height: 1.6; }
+
+        #reasons { display: flex; flex-direction: column; gap: 1.2rem; margin-bottom: 1.8rem; }
+        .reason-card {
+            background: var(--card);
+            border-radius: 22px;
+            padding: 1.5rem 1.4rem 1.3rem;
+            box-shadow: var(--shadow);
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+        .reason-card::before {
+            content: '';
+            position: absolute; inset: 0 auto 0 0; width: 6px;
+            background: linear-gradient(var(--rose), var(--rose-deep));
+        }
+        .reason-num { font-family: 'Playfair Display', serif; font-style: italic; color: var(--rose); font-size: .95rem; }
+        .reason-title { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 1.3rem; color: var(--maroon); margin: .2rem 0 .5rem; }
+        .reason-text { line-height: 1.7; font-size: 1.02rem; }
+        .reason-quote {
+            margin-top: .8rem;
+            padding: .6rem .9rem;
+            background: var(--blush);
+            border-radius: 14px 14px 14px 4px;
+            font-size: .92rem;
+            color: var(--maroon);
+            display: inline-block;
+        }
+        .reason-quote small { display: block; color: var(--soft); font-size: .8rem; margin-top: .2rem; }
+        .reason-emoji { position: absolute; right: 1rem; top: .9rem; font-size: 1.7rem; }
+
+        .counter { color: var(--soft); margin-top: .9rem; font-size: .95rem; }
+        .next-btn.story { background: linear-gradient(45deg, var(--maroon), var(--rose-deep)); }
+    </style>
+</head>
+<body class="page-fade">
+    <div class="container">
+        <h1>Why it's you, muun 🌙</h1>
+        <p class="sub">I could write a whole book (and you'd finish it in five hours, bookworm 📚🪱). For now, tap for one reason at a time.</p>
+
+        <div id="reasons"></div>
+
+        <button class="btn next-btn" id="nextBtn">Tell me one 💕</button>
+        <div class="counter" id="counter"></div>
+    </div>
+
+    <script src="common.js"></script>
+    <script>
+        const reasons = [
+            {
+                emoji: '🕊️',
+                title: 'You chose me with a peaceful heart',
+                text: 'When I asked you why me, you said your heart finally felt at peace. Baby, that is exactly what you are for me too: my peace, my calm, my answered dua.',
+                quote: '"I choose you because I feel at peace…"'
+            },
+            {
+                emoji: '🙈',
+                title: 'Shy in person, brave on text',
+                text: 'Face to face you can barely look at me, and your salam comes out as a whisper. Then on WhatsApp you turn into the bravest, sneakiest, flirtiest girl alive. I love both of you, and both of you are mine.',
+                quote: '"I once saw your ears turning red" 🫣'
+            },
+            {
+                emoji: '☕',
+                title: 'The extra sugar in my chai',
+                text: 'You quietly told mumma that I love meetha, and my chai came out sweeter than ever. That is you: caring for me in small, secret ways, and never taking credit.',
+                quote: '"Mane hi bola tha apka meetha bhut pasand hai"',
+                gloss: 'I\'m the one who told her you love sweets'
+            },
+            {
+                emoji: '🍮',
+                title: 'World\'s best chef (at least for me)',
+                text: 'You made kheer when my family came over, and then you got upset thinking I didn\'t like it. Muunie, it was perfect. I told you the moment I got home: you are my master chef. Next time I\'ll count every roti I eat 🥲',
+                quote: '"thank youuu, you have made my dayyyyy 🥹"'
+            },
+            {
+                emoji: '🤍',
+                title: 'You make me open up',
+                text: 'I\'m the "mysterious character that needs 400 pages to open up". But you kept knocking, gently. When I told you about Ammi, you didn\'t just listen, you held my heart. Thank you for being so soft with the hardest parts of me.',
+                quote: '"not saying what hurts you, it kinda hurts me as well"'
+            },
+            {
+                emoji: '📚',
+                title: 'My 📚🪱 and her TBR list',
+                text: 'You finished Five Survive (sorry, "5 murder") in five hours, you pinned my Shutter Island (sorry, "Stutter Island") recommendation, and you believe fictional men are better. I\'m working very hard to prove you wrong 😌',
+                quote: '"ap toh consistancy ki last boss hai"',
+                gloss: 'you\'re the final boss of consistency'
+            },
+            {
+                emoji: '🐈',
+                title: 'The softest heart in Karachi',
+                text: 'You look after street cats, you rescued a baby sparrow, and you lectured the neighbours about Bella\'s kittens. Anyone who loves that gently is someone I want to spend my whole life with.',
+                quote: '"Yaha to ma or bella dono billiyo ko miss kar rahe hai"',
+                gloss: 'Bella and I both miss the kittens here'
+            },
+            {
+                emoji: '🎬',
+                title: 'You asked ME out first',
+                text: '"Would you like to go with me to see Frozen 3?" I genuinely asked if I was dreaming. You were "just booking me for the future", and I\'m already booked, baby. For every future.',
+                quote: '"I was just booking you for the future as well 🙈"'
+            },
+            {
+                emoji: '🌷',
+                title: 'You fight FOR us',
+                text: 'Even when you\'re angry with me, and I deserve it when I\'m late (I\'m learning, I promise), you\'re angry because you care. My angry bird. My angry woman. My forever.',
+                quote: '"I want a future of us together, for that I might fight/argue/get angry at you. But most importantly I love you."'
+            },
+            {
+                emoji: '✨',
+                title: 'That million-dollar smile',
+                text: 'You almost never smile in your own photos, which is a crime because your smile is the prettiest thing I have ever seen. So today, on your day, I am officially requesting one. Just one. For me. 🥹',
+                quote: '"You have a million dollar smile." (me, many times, still true)'
+            }
+        ];
+
+        let index = 0;
+        let busy = false;
+        const list = document.getElementById('reasons');
+        const btn = document.getElementById('nextBtn');
+        const counter = document.getElementById('counter');
+
+        function makeCard(r, n) {
+            const card = document.createElement('div');
+            card.className = 'reason-card';
+            card.innerHTML = `
+                <div class="reason-emoji">${r.emoji}</div>
+                <div class="reason-num">Reason ${n}</div>
+                <div class="reason-title">${r.title}</div>
+                <div class="reason-text">${r.text}</div>
+                <div class="reason-quote">${r.quote}${r.gloss ? `<small>${r.gloss}</small>` : ''}</div>`;
+            return card;
+        }
+
+        btn.addEventListener('click', () => {
+            if (index >= reasons.length) { goTo('memories.html'); return; }
+            if (busy) return;
+            busy = true;
+            const card = makeCard(reasons[index], index + 1);
+            list.appendChild(card);
+            gsap.from(card, { opacity: 0, y: 40, scale: 0.96, duration: 0.6, ease: 'back.out' });
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            index++;
+            counter.textContent = `${index} of ${reasons.length}, and counting forever`;
+            for (let k = 0; k < 2; k++) setTimeout(createFloating, k * 200);
+
+            if (index === reasons.length) {
+                btn.textContent = 'Walk through our memories 💫';
+                btn.classList.add('story');
+                gsap.fromTo(btn, { scale: 0.9 }, { scale: 1, duration: 0.8, ease: 'elastic.out(1, 0.4)' });
+            } else {
+                btn.textContent = 'Another one 💗';
+            }
+            setTimeout(() => { busy = false; }, 450);
+        });
+    </script>
+</body>
+</html>
