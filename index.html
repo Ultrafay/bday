@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Muunie 🎀</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1.25rem;
+            position: relative;
+            z-index: 2;
+        }
+        .bow { font-size: 3.2rem; animation: wiggle 2.4s ease-in-out infinite; }
+        @keyframes wiggle { 0%,100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(3rem, 11vw, 6rem);
+            color: var(--rose-deep);
+            line-height: 1.05;
+            text-shadow: 0 4px 18px rgba(184, 92, 85, 0.25);
+            opacity: 0;
+        }
+        h1 .name { display: block; font-family: 'Playfair Display', serif; font-weight: 800; font-size: .8em; color: var(--maroon); letter-spacing: .02em; }
+        .greeting {
+            min-height: 4.5rem;
+            max-width: 560px;
+            margin: 1.6rem auto 0;
+            font-size: clamp(1.05rem, 3.6vw, 1.3rem);
+            line-height: 1.6;
+            color: var(--ink);
+        }
+        .greeting::after { content: '|'; animation: blink 1s steps(1) infinite; color: var(--rose); }
+        .greeting.done::after { content: ''; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .call-box {
+            margin: 2rem auto 0;
+            padding: 1.4rem 1.4rem 1.2rem;
+            max-width: 420px;
+            width: 100%;
+            background: var(--card);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            opacity: 0;
+        }
+        .call-box p { color: var(--soft); font-size: .95rem; }
+        .call-name { font-family: 'Dancing Script', cursive; font-size: 2.4rem; color: var(--rose-deep); min-height: 3.2rem; margin: .4rem 0; }
+        .blush-face { font-size: 3rem; display: inline-block; transition: transform .3s; }
+        .blush-note { color: var(--soft); min-height: 1.4rem; font-size: .95rem; margin-top: .3rem; }
+        .call-box .btn { margin-top: .9rem; font-size: 1rem; padding: .75rem 1.6rem; }
+
+        .enter { margin-top: 2.2rem; opacity: 0; }
+    </style>
+</head>
+<body class="page-fade">
+    <div class="container">
+        <div class="bow">🎀</div>
+        <h1>Happy Birthday<span class="name">Malaiqa</span></h1>
+        <div class="greeting"></div>
+
+        <div class="call-box">
+            <p>Every time I call you by name, you get shy. Let's test it 🙈</p>
+            <div class="call-name" id="callName">&nbsp;</div>
+            <div class="blush-face" id="blushFace">🙂</div>
+            <div class="blush-note" id="blushNote"></div>
+            <button class="btn ghost" id="callBtn">Call her 📞</button>
+        </div>
+
+        <button class="btn enter" id="enterBtn">Come into our little world 💕</button>
+    </div>
+
+    <script src="common.js"></script>
+    <script>
+        const greetingText = "Today the whole world got a little brighter, because 26th September gave me you. Happy birthday, my love 💖";
+        const greetingEl = document.querySelector('.greeting');
+        let i = 0;
+        function typeGreeting() {
+            if (i < greetingText.length) {
+                greetingEl.textContent += greetingText.charAt(i++);
+                setTimeout(typeGreeting, 55);
+            } else {
+                greetingEl.classList.add('done');
+                gsap.to('.call-box', { opacity: 1, y: -10, duration: 0.9, ease: 'back.out' });
+                gsap.to('.enter', { opacity: 1, y: -10, duration: 0.9, delay: 0.4, ease: 'back.out' });
+            }
+        }
+
+        const names = [
+            { n: 'Malaiqa…', face: '😳', note: 'look at her, already shy' },
+            { n: 'Baby 🥹', face: '🙈', note: 'aaand she is hiding her face' },
+            { n: 'Muunie 🌙', face: '☺️', note: 'that little smile she tries to hide' },
+            { n: 'Muun', face: '😊', note: 'cheeks officially pink' },
+            { n: 'Mylaiqa', face: '🥰', note: 'MY laiqa. only mine.' },
+            { n: 'My love 💗', face: '🫣', note: 'full shy mode activated' }
+        ];
+        let callIndex = 0;
+        document.getElementById('callBtn').addEventListener('click', () => {
+            const c = names[callIndex % names.length];
+            callIndex++;
+            const nameEl = document.getElementById('callName');
+            const face = document.getElementById('blushFace');
+            nameEl.textContent = c.n;
+            face.textContent = c.face;
+            document.getElementById('blushNote').textContent = c.note;
+            gsap.fromTo(nameEl, { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out' });
+            gsap.fromTo(face, { rotation: -15, scale: 0.8 }, { rotation: 0, scale: 1.15, duration: 0.6, ease: 'elastic.out(1, 0.4)' });
+            for (let k = 0; k < 3; k++) setTimeout(createFloating, k * 150);
+        });
+
+        document.getElementById('enterBtn').addEventListener('click', () => goTo('reasons.html'));
+
+        window.addEventListener('load', () => {
+            gsap.to('h1', { opacity: 1, y: 10, duration: 1.2, ease: 'bounce.out' });
+            setTimeout(typeGreeting, 900);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,500&family=Quicksand:wght@400;500;600&display=swap');
+
+:root {
+    --rose: #e0877b;
+    --rose-deep: #b85c55;
+    --blush: #ffd9d3;
+    --cream: #fff6f1;
+    --maroon: #6b2d2b;
+    --ink: #4a2c2a;
+    --soft: #8c6663;
+    --card: rgba(255, 255, 255, 0.82);
+    --shadow: 0 14px 40px rgba(107, 45, 43, 0.16);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    min-height: 100vh;
+    font-family: 'Quicksand', sans-serif;
+    color: var(--ink);
+    background: linear-gradient(135deg, #ffe4de 0%, #fff6f1 30%, #ffd9d3 60%, #fbe3ef 80%, #ffe4de 100%);
+    background-size: 400% 400%;
+    animation: gradientFlow 18s ease infinite;
+    overflow-x: hidden;
+}
+
+@keyframes gradientFlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.script { font-family: 'Dancing Script', cursive; }
+.serif { font-family: 'Playfair Display', serif; }
+
+/* floating hearts / bows */
+.floating {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    user-select: none;
+}
+
+/* heart cursor (desktop only) */
+.heart-cursor {
+    position: fixed;
+    width: 26px;
+    height: 26px;
+    pointer-events: none;
+    z-index: 999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.08s linear;
+}
+.heart-cursor svg { width: 100%; height: 100%; fill: var(--rose); filter: drop-shadow(0 2px 4px rgba(184, 92, 85, .4)); }
+@media (hover: none) { .heart-cursor { display: none; } }
+
+.btn {
+    display: inline-block;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 0.95rem 2.1rem;
+    border: none;
+    border-radius: 999px;
+    color: #fff;
+    background: linear-gradient(45deg, var(--rose-deep), var(--rose));
+    box-shadow: 0 8px 22px rgba(184, 92, 85, 0.4);
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+.btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 12px 28px rgba(184, 92, 85, 0.5); }
+.btn.ghost { background: rgba(255,255,255,.7); color: var(--rose-deep); box-shadow: 0 6px 16px rgba(184,92,85,.18); }
+
+.page-fade { animation: pageIn 1s ease both; }
+@keyframes pageIn { from { opacity: 0; } to { opacity: 1; } }
+
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity .9s ease, transform .9s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+    body { animation: none; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+}
